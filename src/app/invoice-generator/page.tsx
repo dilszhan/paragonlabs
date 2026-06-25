@@ -41,13 +41,17 @@ export default function InvoiceGenerator() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   // Load from local storage on mount
   useEffect(() => {
     const savedDetails = localStorage.getItem('invoiceDetails');
     const savedItems = localStorage.getItem('invoiceItems');
     if (savedDetails) {
-      try { setInvoiceDetails(JSON.parse(savedDetails)); } catch (e) {}
+      try { 
+        const parsed = JSON.parse(savedDetails);
+        setInvoiceDetails(prev => ({ ...prev, ...parsed })); 
+      } catch (e) {}
     }
     if (savedItems) {
       try { setItems(JSON.parse(savedItems)); } catch (e) {}
@@ -120,6 +124,34 @@ export default function InvoiceGenerator() {
     } finally {
       setIsDownloading(false);
     }
+  };
+
+  const confirmClearData = () => {
+    setInvoiceDetails({
+      invoiceNumber: '',
+      date: `${String(new Date().getDate()).padStart(2, '0')}/${String(new Date().getMonth() + 1).padStart(2, '0')}/${String(new Date().getFullYear()).slice(-2)}`,
+      dueDate: '',
+      fromName: '',
+      fromABN: '',
+      fromPhone: '',
+      fromEmail: '',
+      fromAddress: '',
+      toName: '',
+      toABN: '',
+      toPhone: '',
+      toEmail: '',
+      toAddress: '',
+      notes: '',
+      bankDetails: '',
+      currency: '$',
+      taxLabel: 'GST',
+      taxRate: 0,
+      logoUrl: ''
+    });
+    setItems([{ id: Date.now().toString(), description: '', quantity: 1, rate: 0 }]);
+    localStorage.removeItem('invoiceDetails');
+    localStorage.removeItem('invoiceItems');
+    setShowClearConfirm(false);
   };
 
   // Prevent rendering raw state until hydration is complete to avoid SSR mismatch
@@ -336,8 +368,12 @@ export default function InvoiceGenerator() {
 
               <div style={{ borderTop: '1px solid var(--navy-border)', margin: '1.5rem 0' }}></div>
 
-              <button onClick={handleDownloadPDF} disabled={isDownloading} className="btn-gold w-full flex gap-2 justify-center py-3 px-4 rounded-sm text-sm disabled:opacity-50">
+              <button onClick={handleDownloadPDF} disabled={isDownloading} className="btn-gold w-full flex gap-2 justify-center py-3 px-4 rounded-sm text-sm disabled:opacity-50 mb-3">
                 <Download size={18} className={isDownloading ? "animate-bounce" : ""} /> {isDownloading ? "Generating PDF..." : "Download PDF"}
+              </button>
+
+              <button onClick={() => setShowClearConfirm(true)} className="w-full flex gap-2 justify-center py-2 px-4 rounded-sm text-sm border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors">
+                <Trash2 size={16} /> Clear All Data
               </button>
               
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '1rem' }}>
@@ -400,6 +436,32 @@ export default function InvoiceGenerator() {
           .item-row input.text-right, .item-row input.text-center { text-align: left; }
         }
       `}</style>
+
+      {/* Clear Confirmation Modal */}
+      {showClearConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] rounded shadow-2xl p-6 max-w-md w-full" style={{ animation: 'fadeUp 0.3s ease forwards' }}>
+            <h3 className="text-xl font-semibold text-white mb-3">Clear all data?</h3>
+            <p className="text-[var(--text-muted)] mb-6">
+              Are you sure you want to clear all invoice data? This action cannot be undone and will reset the form to a blank state.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button 
+                onClick={() => setShowClearConfirm(false)}
+                className="px-4 py-2 rounded text-[var(--text-body)] hover:bg-[var(--navy)] border border-transparent hover:border-[var(--navy-border)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmClearData}
+                className="px-4 py-2 rounded bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-colors flex items-center gap-2"
+              >
+                <Trash2 size={16} /> Yes, clear data
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
