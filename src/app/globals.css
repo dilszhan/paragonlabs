@@ -198,3 +198,13 @@ body::before {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* Hide number input spin buttons globally */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}

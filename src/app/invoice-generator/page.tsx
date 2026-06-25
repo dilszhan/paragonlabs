@@ -15,7 +15,7 @@ export default function InvoiceGenerator() {
 
   const [invoiceDetails, setInvoiceDetails] = useState({
     invoiceNumber: '',
-    date: new Date().toISOString().split('T')[0],
+    date: `${String(new Date().getDate()).padStart(2, '0')}/${String(new Date().getMonth() + 1).padStart(2, '0')}/${String(new Date().getFullYear()).slice(-2)}`,
     dueDate: '',
     fromName: '',
     fromABN: '',
@@ -146,7 +146,7 @@ export default function InvoiceGenerator() {
         <div className="invoice-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem' }}>
           
           {/* Main Invoice Editor Area */}
-          <div className="card" style={{ padding: '3rem', borderRadius: '4px', background: '#ffffff', color: '#1a1a1a' }} id="invoice-preview">
+          <div className="card" style={{ padding: '3rem', borderRadius: '4px', background: 'var(--navy-card)', color: '#ffffff' }} id="invoice-preview">
             
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3rem' }}>
@@ -170,43 +170,43 @@ export default function InvoiceGenerator() {
                   )}
                 </div>
 
-                <input type="text" name="fromName" placeholder="Your Company Name" value={invoiceDetails.fromName} onChange={handleInputChange} className="invoice-input title-input" style={{ fontSize: '1.75rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.5rem' }} />
-                <input type="text" name="fromABN" placeholder="ABN / Tax ID (Optional)" value={invoiceDetails.fromABN} onChange={handleInputChange} className="invoice-input" style={{ color: '#666' }} />
-                <textarea name="fromAddress" placeholder="Your Address" value={invoiceDetails.fromAddress} onChange={handleInputChange} className="invoice-input" style={{ display: 'block', minHeight: '60px', color: '#666' }} />
-                <input type="email" name="fromEmail" placeholder="Your Email" value={invoiceDetails.fromEmail} onChange={handleInputChange} className="invoice-input" style={{ color: '#666' }} />
-                <input type="text" name="fromPhone" placeholder="Your Phone Number (Optional)" value={invoiceDetails.fromPhone} onChange={handleInputChange} className="invoice-input" style={{ color: '#666' }} />
+                <input type="text" name="fromName" placeholder="Your Company Name" value={invoiceDetails.fromName} onChange={handleInputChange} className="invoice-input" style={{ fontWeight: 700, color: '#ffffff', marginBottom: '0.5rem' }} />
+                <input type="text" name="fromABN" placeholder="ABN / Tax ID (Optional)" value={invoiceDetails.fromABN} onChange={handleInputChange} className="invoice-input" style={{ color: 'var(--text-muted)' }} />
+                <textarea name="fromAddress" placeholder="Your Address" value={invoiceDetails.fromAddress} onChange={handleInputChange} className="invoice-input" style={{ display: 'block', height: '34px', minHeight: '34px', color: 'var(--text-muted)' }} />
+                <input type="email" name="fromEmail" placeholder="Your Email" value={invoiceDetails.fromEmail} onChange={handleInputChange} className="invoice-input" style={{ color: 'var(--text-muted)' }} />
+                <input type="text" name="fromPhone" placeholder="Your Phone Number (Optional)" value={invoiceDetails.fromPhone} onChange={handleInputChange} className="invoice-input" style={{ color: 'var(--text-muted)' }} />
               </div>
 
               <div style={{ textAlign: 'right' }}>
                 <h2 className="font-display" style={{ fontSize: '2.5rem', color: '#e5e7eb', textTransform: 'uppercase', letterSpacing: '0.1em' }}>INVOICE</h2>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem' }}>
-                  <span style={{ color: '#666' }}>Invoice #</span>
+                  <span style={{ color: 'var(--text-muted)' }}>Invoice #</span>
                   <input type="text" name="invoiceNumber" placeholder="INV-001" value={invoiceDetails.invoiceNumber} onChange={handleInputChange} className="invoice-input text-right" style={{ width: '120px', fontWeight: 600 }} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1rem', marginTop: '0.5rem' }}>
-                  <span style={{ color: '#666' }}>Date</span>
-                  <input type="date" name="date" value={invoiceDetails.date} onChange={handleInputChange} className="invoice-input text-right" style={{ width: '150px' }} />
+                  <span style={{ color: 'var(--text-muted)' }}>Date</span>
+                  <input type="text" name="date" placeholder="DD/MM/YY" value={invoiceDetails.date} onChange={handleInputChange} className="invoice-input text-right" style={{ width: '150px' }} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1rem', marginTop: '0.5rem' }}>
-                  <span style={{ color: '#666' }}>Due Date</span>
-                  <input type="date" name="dueDate" value={invoiceDetails.dueDate} onChange={handleInputChange} className="invoice-input text-right" style={{ width: '150px' }} />
+                  <span style={{ color: 'var(--text-muted)' }}>Due Date</span>
+                  <input type="text" name="dueDate" placeholder="DD/MM/YY" value={invoiceDetails.dueDate} onChange={handleInputChange} className="invoice-input text-right" style={{ width: '150px' }} />
                 </div>
               </div>
             </div>
 
             {/* Bill To */}
-            <div style={{ marginBottom: '3rem', borderTop: '1px solid #f3f4f6', paddingTop: '2rem' }}>
+            <div style={{ marginBottom: '3rem', borderTop: '1px solid var(--navy-border)', paddingTop: '2rem' }}>
               <h3 style={{ color: '#9ca3af', fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>Bill To</h3>
-              <input type="text" name="toName" placeholder="Client Name" value={invoiceDetails.toName} onChange={handleInputChange} className="invoice-input title-input" style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1a1a1a', marginBottom: '0.25rem' }} />
-              <input type="text" name="toABN" placeholder="Client ABN / Tax ID (Optional)" value={invoiceDetails.toABN} onChange={handleInputChange} className="invoice-input" style={{ color: '#666' }} />
-              <textarea name="toAddress" placeholder="Client Address" value={invoiceDetails.toAddress} onChange={handleInputChange} className="invoice-input" style={{ display: 'block', minHeight: '60px', color: '#666' }} />
-              <input type="email" name="toEmail" placeholder="Client Email" value={invoiceDetails.toEmail} onChange={handleInputChange} className="invoice-input" style={{ color: '#666' }} />
-              <input type="text" name="toPhone" placeholder="Client Phone (Optional)" value={invoiceDetails.toPhone} onChange={handleInputChange} className="invoice-input" style={{ color: '#666' }} />
+              <input type="text" name="toName" placeholder="Client Name" value={invoiceDetails.toName} onChange={handleInputChange} className="invoice-input" style={{ fontWeight: 700, color: '#ffffff', marginBottom: '0.25rem' }} />
+              <input type="text" name="toABN" placeholder="Client ABN / Tax ID (Optional)" value={invoiceDetails.toABN} onChange={handleInputChange} className="invoice-input" style={{ color: 'var(--text-muted)' }} />
+              <textarea name="toAddress" placeholder="Client Address" value={invoiceDetails.toAddress} onChange={handleInputChange} className="invoice-input" style={{ display: 'block', height: '34px', minHeight: '34px', color: 'var(--text-muted)' }} />
+              <input type="email" name="toEmail" placeholder="Client Email" value={invoiceDetails.toEmail} onChange={handleInputChange} className="invoice-input" style={{ color: 'var(--text-muted)' }} />
+              <input type="text" name="toPhone" placeholder="Client Phone (Optional)" value={invoiceDetails.toPhone} onChange={handleInputChange} className="invoice-input" style={{ color: 'var(--text-muted)' }} />
             </div>
 
             {/* Items Table */}
             <div style={{ marginBottom: '3rem' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '4fr 1fr 1.5fr 1.5fr 30px', gap: '1rem', paddingBottom: '0.75rem', borderBottom: '2px solid #e5e7eb', color: '#4b5563', fontWeight: 600, fontSize: '0.9rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '4fr 1fr 1.5fr 1.5fr 30px', gap: '1rem', paddingBottom: '0.75rem', borderBottom: '2px solid var(--navy-border)', color: 'var(--text-body)', fontWeight: 600, fontSize: '0.9rem' }}>
                 <div>Description</div>
                 <div style={{ textAlign: 'center' }}>Qty</div>
                 <div style={{ textAlign: 'right' }}>Rate</div>
@@ -216,7 +216,7 @@ export default function InvoiceGenerator() {
 
               <div className="items-list">
                 {items.map((item, index) => (
-                  <div key={item.id} className="item-row" style={{ display: 'grid', gridTemplateColumns: '4fr 1fr 1.5fr 1.5fr 30px', gap: '1rem', alignItems: 'start', padding: '1rem 0', borderBottom: '1px solid #f3f4f6' }}>
+                  <div key={item.id} className="item-row" style={{ display: 'grid', gridTemplateColumns: '4fr 1fr 1.5fr 1.5fr 30px', gap: '1rem', alignItems: 'start', padding: '1rem 0', borderBottom: '1px solid var(--navy-border)' }}>
                     <textarea 
                       value={item.description} 
                       onChange={(e) => updateItem(item.id, 'description', e.target.value)}
@@ -242,7 +242,7 @@ export default function InvoiceGenerator() {
                         placeholder="0.00"
                       />
                     </div>
-                    <div style={{ textAlign: 'right', padding: '8px', fontWeight: 500, color: '#1a1a1a' }}>
+                    <div style={{ textAlign: 'right', padding: '8px', fontWeight: 500, color: '#ffffff' }}>
                       {invoiceDetails.currency}{(item.quantity * item.rate).toFixed(2)}
                     </div>
                     <button onClick={() => removeItem(item.id)} className="delete-btn hide-on-print" style={{ color: '#ef4444', padding: '8px', borderRadius: '4px' }} title="Remove Item">
@@ -260,12 +260,12 @@ export default function InvoiceGenerator() {
             {/* Totals */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3rem' }}>
               <div style={{ width: '350px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #f3f4f6', color: '#666' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid var(--navy-border)', color: 'var(--text-muted)' }}>
                   <span>Subtotal</span>
                   <span>{invoiceDetails.currency}{subtotal.toFixed(2)}</span>
                 </div>
                 
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #f3f4f6', color: '#666', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid var(--navy-border)', color: 'var(--text-muted)', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1 }}>
                     <input 
                       type="text" 
@@ -274,7 +274,7 @@ export default function InvoiceGenerator() {
                       onChange={handleInputChange} 
                       placeholder="Tax/GST" 
                       className="invoice-input" 
-                      style={{ width: '80px', padding: '2px', color: '#666' }} 
+                      style={{ width: '80px', padding: '2px', color: 'var(--text-muted)' }} 
                     />
                     <span>(%)</span>
                     <input 
@@ -290,7 +290,7 @@ export default function InvoiceGenerator() {
                   <span>{invoiceDetails.currency}{taxAmount.toFixed(2)}</span>
                 </div>
                 
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 0', color: '#1a1a1a', fontWeight: 700, fontSize: '1.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 0', color: '#ffffff', fontWeight: 700, fontSize: '1.25rem' }}>
                   <span>Total</span>
                   <span>{invoiceDetails.currency}{total.toFixed(2)}</span>
                 </div>
@@ -300,17 +300,6 @@ export default function InvoiceGenerator() {
             {/* Bottom Info: Notes & Bank Details */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
               <div>
-                <h3 style={{ color: '#9ca3af', fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Notes / Terms</h3>
-                <textarea 
-                  name="notes" 
-                  value={invoiceDetails.notes} 
-                  onChange={handleInputChange} 
-                  placeholder="Thank you for your business. Payment is due within 14 days."
-                  className="invoice-input" 
-                  style={{ width: '100%', minHeight: '80px', color: '#666' }} 
-                />
-              </div>
-              <div>
                 <h3 style={{ color: '#9ca3af', fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Payment Details</h3>
                 <textarea 
                   name="bankDetails" 
@@ -318,7 +307,18 @@ export default function InvoiceGenerator() {
                   onChange={handleInputChange} 
                   placeholder="Bank Name: &#10;Account Name: &#10;BSB / Sort Code: &#10;Account Number: "
                   className="invoice-input" 
-                  style={{ width: '100%', minHeight: '80px', color: '#1a1a1a', fontWeight: 500 }} 
+                  style={{ width: '100%', minHeight: '80px', color: '#ffffff', fontWeight: 500 }} 
+                />
+              </div>
+              <div>
+                <h3 style={{ color: '#9ca3af', fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Notes / Terms</h3>
+                <textarea 
+                  name="notes" 
+                  value={invoiceDetails.notes} 
+                  onChange={handleInputChange} 
+                  placeholder="Thank you for your business. Payment is due within 14 days."
+                  className="invoice-input" 
+                  style={{ width: '100%', minHeight: '80px', color: 'var(--text-muted)' }} 
                 />
               </div>
             </div>
@@ -360,8 +360,8 @@ export default function InvoiceGenerator() {
           width: 100%;
         }
         .invoice-input:hover, .invoice-input:focus {
-          border-color: #d1d5db;
-          background-color: #f9fafb;
+          border-color: var(--navy-border);
+          background-color: var(--navy);
           outline: none;
         }
         .invoice-input::placeholder {
@@ -371,11 +371,11 @@ export default function InvoiceGenerator() {
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .title-input { padding: 0; }
-        .title-input:hover, .title-input:focus { background-color: transparent; border-color: transparent; background: #f9fafb; }
+        .title-input:hover, .title-input:focus { background-color: transparent; border-color: transparent; background: var(--navy); }
         
-        .add-item-btn:hover { background-color: #eff6ff; cursor: pointer; }
+        .add-item-btn:hover { background-color: var(--navy-border); cursor: pointer; }
         .delete-btn { background: transparent; border: none; cursor: pointer; }
-        .delete-btn:hover { background-color: #fef2f2; }
+        .delete-btn:hover { background-color: var(--navy-border); }
         
         textarea { resize: none; overflow: hidden; }
 
