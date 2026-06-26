@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -24,10 +25,10 @@ export function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="fixed top-0 w-full z-50 px-6 py-4 navbar">
+    <nav className="fixed top-0 w-full z-50 px-6 py-0 navbar">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link href="/" className="font-display text-xl font-semibold gold-gradient">
-          ParagonLabs
+        <Link href="/" className="flex items-center">
+          <Image src="/images/Logo.png" alt="ParagonLabs Logo" width={85} height={20} className="object-contain brightness-0 invert scale-125 origin-left" priority />
         </Link>
         
         <div className="hidden md:flex items-center gap-8 text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -62,12 +63,11 @@ export function Navbar() {
           ))}
         </div>
         
-        <Link href="/#contact" className="hidden md:inline-block btn-gold text-xs px-5 py-2 rounded-sm">
+        <Link href="/#contact" className="hidden md:inline-block btn-gold text-xs px-4 py-1.5 rounded-sm">
           Let's Talk
         </Link>
         
-        {/* Mobile hamburger */}
-        <button className="md:hidden flex flex-col gap-1.5 p-2" onClick={toggleMenu}>
+        <button className="md:hidden flex flex-col gap-1.5 p-1" onClick={toggleMenu}>
           <span className="block w-5 h-px bg-white"></span>
           <span className="block w-5 h-px bg-white"></span>
           <span className="block w-5 h-px bg-white"></span>

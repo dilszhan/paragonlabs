@@ -189,7 +189,7 @@ export default function Home() {
               {/* Agency Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div>
-                  <div className="text-3xl font-display font-semibold gold-gradient mb-1">$50M+</div>
+                  <div className="text-3xl font-display font-semibold gold-gradient mb-1">$20M+</div>
                   <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Client Revenue Generated</p>
                 </div>
                 <div>
@@ -197,7 +197,7 @@ export default function Home() {
                   <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Client Retention Rate</p>
                 </div>
                 <div>
-                  <div className="text-3xl font-display font-semibold gold-gradient mb-1">350%</div>
+                  <div className="text-3xl font-display font-semibold gold-gradient mb-1">230%</div>
                   <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Average 90-Day ROI</p>
                 </div>
                 <div>
@@ -365,52 +365,30 @@ export default function Home() {
             <h2 className="font-display text-4xl font-semibold" style={{ color: '#EDF2F7' }}>How we scale brands</h2>
           </div>
 
-          <div className="max-w-3xl space-y-10 relative">
-            <div className="absolute left-[4px] top-4 bottom-4 w-px bg-[var(--navy-border)] hidden md:block"></div>
-            
-            <div className="flex flex-col md:flex-row gap-6 reveal relative">
-              <div className="hidden md:flex flex-col items-center z-10 pt-1">
-                <div className="tl-dot"></div>
-              </div>
-              <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] p-8 rounded-sm flex-1 ml-0 md:ml-4 card">
-                <p className="font-mono text-xs mb-2" style={{ color: 'var(--gold)' }}>Phase 01</p>
-                <h3 className="font-semibold text-xl mb-2" style={{ color: '#EDF2F7' }}>Discovery & Audit</h3>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>We tear apart your current digital infrastructure. Analyzing historical ad account data, SEO health, technical stack performance, and competitive gaps to find immediate quick-wins and long-term leverage points.</p>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] p-8 rounded-sm card reveal flex flex-col h-full">
+              <p className="font-mono text-xs mb-2" style={{ color: 'var(--gold)' }}>Phase 01</p>
+              <h3 className="font-semibold text-xl mb-4" style={{ color: '#EDF2F7' }}>Discovery & Audit</h3>
+              <p className="text-sm flex-grow" style={{ color: 'var(--text-muted)' }}>We tear apart your current digital infrastructure. Analyzing historical ad account data, SEO health, technical stack performance, and competitive gaps to find immediate quick-wins and long-term leverage points.</p>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-6 reveal relative" style={{ transitionDelay: '0.1s' }}>
-              <div className="hidden md:flex flex-col items-center z-10 pt-1">
-                <div className="tl-dot"></div>
-              </div>
-              <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] p-8 rounded-sm flex-1 ml-0 md:ml-4 card">
-                <p className="font-mono text-xs mb-2" style={{ color: 'var(--gold)' }}>Phase 02</p>
-                <h3 className="font-semibold text-xl mb-2" style={{ color: '#EDF2F7' }}>Strategic Roadmap</h3>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>We formulate a multi-channel blueprint. Whether it requires building a new high-converting Next.js storefront, or restructuring a messy Google Ads account, we map the exact path to ROI.</p>
-              </div>
+            <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] p-8 rounded-sm card reveal flex flex-col h-full" style={{ transitionDelay: '0.1s' }}>
+              <p className="font-mono text-xs mb-2" style={{ color: 'var(--gold)' }}>Phase 02</p>
+              <h3 className="font-semibold text-xl mb-4" style={{ color: '#EDF2F7' }}>Strategic Roadmap</h3>
+              <p className="text-sm flex-grow" style={{ color: 'var(--text-muted)' }}>We formulate a multi-channel blueprint. Whether it requires building a new high-converting Next.js storefront, or restructuring a messy Google Ads account, we map the exact path to ROI.</p>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-6 reveal relative" style={{ transitionDelay: '0.2s' }}>
-              <div className="hidden md:flex flex-col items-center z-10 pt-1">
-                <div className="tl-dot"></div>
-              </div>
-              <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] p-8 rounded-sm flex-1 ml-0 md:ml-4 card">
-                <p className="font-mono text-xs mb-2" style={{ color: 'var(--gold)' }}>Phase 03</p>
-                <h3 className="font-semibold text-xl mb-2" style={{ color: '#EDF2F7' }}>Execution & Launch</h3>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Our specialists deploy the strategy. From deploying pixel-perfect React code to launching dynamic product ads, execution is relentless and quality-assured.</p>
-              </div>
+            <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] p-8 rounded-sm card reveal flex flex-col h-full" style={{ transitionDelay: '0.2s' }}>
+              <p className="font-mono text-xs mb-2" style={{ color: 'var(--gold)' }}>Phase 03</p>
+              <h3 className="font-semibold text-xl mb-4" style={{ color: '#EDF2F7' }}>Execution & Launch</h3>
+              <p className="text-sm flex-grow" style={{ color: 'var(--text-muted)' }}>Our specialists deploy the strategy. From deploying pixel-perfect React code to launching dynamic product ads, execution is relentless and quality-assured.</p>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-6 reveal relative" style={{ transitionDelay: '0.3s' }}>
-              <div className="hidden md:flex flex-col items-center z-10 pt-1">
-                <div className="tl-dot" style={{ background: 'var(--navy-border)' }}></div>
-              </div>
-              <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] p-8 rounded-sm flex-1 ml-0 md:ml-4 card relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[rgba(139,90,43,0.05)] rounded-full blur-2xl"></div>
-                <p className="font-mono text-xs mb-2" style={{ color: 'var(--gold)' }}>Phase 04</p>
-                <h3 className="font-semibold text-xl mb-2" style={{ color: '#EDF2F7' }}>Optimize & Scale</h3>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>We don't set and forget. Through daily monitoring, A/B testing, and data analysis, we ruthlessly optimize CPA and scale budgets effectively once profitability is locked in.</p>
-              </div>
+            <div className="bg-[var(--navy-card)] border border-[var(--navy-border)] p-8 rounded-sm card reveal relative overflow-hidden flex flex-col h-full" style={{ transitionDelay: '0.3s' }}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[rgba(139,90,43,0.05)] rounded-full blur-2xl"></div>
+              <p className="font-mono text-xs mb-2" style={{ color: 'var(--gold)' }}>Phase 04</p>
+              <h3 className="font-semibold text-xl mb-4" style={{ color: '#EDF2F7' }}>Optimize & Scale</h3>
+              <p className="text-sm flex-grow" style={{ color: 'var(--text-muted)' }}>We don't set and forget. Through daily monitoring, A/B testing, and data analysis, we ruthlessly optimize CPA and scale budgets effectively once profitability is locked in.</p>
             </div>
           </div>
         </div>
