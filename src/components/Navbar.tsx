@@ -4,9 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { ContactModal } from './ContactModal';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = usePathname();
 
   const navLinks = [
@@ -25,7 +27,7 @@ export function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="fixed top-0 w-full z-50 px-6 py-0 navbar">
+    <nav className="fixed top-0 w-full z-50 px-6 py-8 navbar">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image src="/images/Logo.png" alt="ParagonLabs Logo" width={85} height={20} className="object-contain brightness-0 invert scale-125 origin-left" priority />
@@ -63,9 +65,9 @@ export function Navbar() {
           ))}
         </div>
         
-        <Link href="/#contact" className="hidden md:inline-block btn-gold text-xs px-4 py-1.5 rounded-sm">
+        <button onClick={() => setIsModalOpen(true)} className="hidden md:inline-block btn-gold text-xs px-4 py-2 rounded-sm">
           Let's Talk
-        </Link>
+        </button>
         
         <button className="md:hidden flex flex-col gap-1.5 p-1" onClick={toggleMenu}>
           <span className="block w-5 h-px bg-white"></span>
@@ -105,9 +107,11 @@ export function Navbar() {
               </Link>
             )
           ))}
-          <Link href="/#contact" onClick={toggleMenu} className="block py-1 hover:text-white">Contact</Link>
+          <button onClick={() => { toggleMenu(); setIsModalOpen(true); }} className="block py-1 hover:text-white text-left">Contact</button>
         </div>
       )}
+      
+      <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </nav>
   );
 }

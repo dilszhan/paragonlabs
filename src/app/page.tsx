@@ -1,7 +1,8 @@
 "use client";
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { ContactModal } from '@/components/ContactModal';
 import { Megaphone, Search, Target, BarChart3, Globe, Users, ArrowRight, Hexagon, Triangle, CircleDashed, Box, Activity, Sun } from 'lucide-react';
 
 const demoLogos = [
@@ -14,6 +15,8 @@ const demoLogos = [
 ];
 
 export default function Home() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -49,7 +52,7 @@ export default function Home() {
                 <Link href="#work" className="btn-gold px-6 py-3 rounded-sm text-sm inline-flex items-center justify-center gap-2 whitespace-nowrap">
                   Our Case Studies <ArrowRight size={16} />
                 </Link>
-                <Link href="#contact" className="btn-outline px-6 py-3 rounded-sm text-sm inline-flex items-center justify-center whitespace-nowrap">Partner With Us</Link>
+                <button onClick={() => setIsModalOpen(true)} className="btn-outline px-6 py-3 rounded-sm text-sm inline-flex items-center justify-center whitespace-nowrap">Partner With Us</button>
               </div>
               <div className="flex flex-wrap gap-2 mt-8 anim-5">
                 <span className="skill-tag">Performance Marketing</span>
@@ -290,9 +293,9 @@ export default function Home() {
               <p className="section-label mb-3">Case Studies</p>
               <h2 className="font-display text-4xl font-semibold" style={{ color: '#EDF2F7' }}>Results that speak</h2>
             </div>
-            <Link href="#contact" className="hidden md:flex text-[var(--gold)] text-sm items-center gap-2 hover:underline">
+            <button onClick={() => setIsModalOpen(true)} className="hidden md:flex text-[var(--gold)] text-sm items-center gap-2 hover:underline">
               View full portfolio <ArrowRight size={14} />
-            </Link>
+            </button>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -409,13 +412,15 @@ export default function Home() {
                 Ready to dominate your market? Request a comprehensive strategy audit from our senior team today.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#" className="btn-gold px-8 py-4 rounded-sm text-sm">Request Free Growth Audit</a>
+                <button onClick={() => setIsModalOpen(true)} className="btn-gold px-8 py-4 rounded-sm text-sm">Request Free Growth Audit</button>
                 <Link href="/invoice-generator" className="btn-outline px-8 py-4 rounded-sm text-sm bg-[var(--navy)]">Try Our Free Agency Tools</Link>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 }
