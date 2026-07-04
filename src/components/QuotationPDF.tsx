@@ -8,7 +8,7 @@ const s = StyleSheet.create({
   headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 },
   logo: { width: 120, height: 48, objectFit: 'contain' },
   logoText: { fontSize: 28, fontFamily: 'Helvetica-Bold' },
-  invoiceTitle: { fontSize: 32, fontFamily: 'Helvetica-Bold', textAlign: 'right' },
+  documentTitle: { fontSize: 32, fontFamily: 'Helvetica-Bold', textAlign: 'right' },
 
   // Company + meta
   metaRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 28 },
@@ -16,7 +16,7 @@ const s = StyleSheet.create({
   metaLabel: { fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#111', marginBottom: 2 },
   metaValue: { fontSize: 9, color: '#333', marginBottom: 6 },
 
-  // Bill to
+  // Quote To
   billLabel: { fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#666', marginBottom: 4, letterSpacing: 0.5 },
   clientName: { fontSize: 9, fontFamily: 'Helvetica-Bold', marginBottom: 4 },
   clientText: { fontSize: 9, color: '#333', lineHeight: 1.6 },
@@ -26,7 +26,9 @@ const s = StyleSheet.create({
 
   // Table
   tableHeaderRow: { flexDirection: 'row', paddingBottom: 6, borderBottomWidth: 1, borderColor: '#111', marginBottom: 4 },
-  tableRow: { flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 0.5, borderColor: '#eee' },
+  tableRow: { flexDirection: 'row', paddingVertical: 8, borderBottomWidth: 0.5, borderColor: '#eee' },
+  colImg: { width: 60, marginRight: 10 },
+  itemImage: { width: 60, height: 60, objectFit: 'contain', backgroundColor: '#f9fafb', borderRadius: 2 },
   colDesc: { flex: 4, fontSize: 9 },
   colQty: { flex: 1, textAlign: 'right', fontSize: 9 },
   colPrice: { flex: 1.5, textAlign: 'right', fontSize: 9 },
@@ -47,16 +49,13 @@ const s = StyleSheet.create({
   footer: { position: 'absolute', bottom: 48, left: 48, right: 48, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
   paymentLabel: { fontSize: 8, fontFamily: 'Helvetica-Bold', letterSpacing: 0.5, marginBottom: 3 },
   paymentText: { fontSize: 9, color: '#333', marginBottom: 6 },
-  bankText: { fontSize: 9, color: '#333', lineHeight: 1.6 },
-  footerText: { fontSize: 9, fontFamily: 'Helvetica-Bold', letterSpacing: 2, textAlign: 'right' },
-  footerCompany: { fontSize: 9, textAlign: 'right', color: '#555', marginTop: 2 },
 });
 
-interface InvoicePDFProps {
+interface QuotationPDFProps {
   details: {
-    invoiceNumber: string;
+    quotationNumber: string;
     date: string;
-    dueDate: string;
+    validUntil: string;
     fromName: string;
     fromABN: string;
     fromPhone: string;
@@ -68,32 +67,33 @@ interface InvoicePDFProps {
     toEmail: string;
     toAddress: string;
     notes: string;
-    bankDetails: string;
     currency: string;
     taxLabel: string;
     taxRate: number;
     logoUrl: string;
+    mode: 'basic' | 'advanced';
   };
   items: Array<{
     id: string;
     description: string;
     quantity: number;
     rate: number;
+    imageUrl?: string;
   }>;
 }
 
-export default function InvoicePDF({ details, items }: InvoicePDFProps) {
+export default function QuotationPDF({ details, items }: QuotationPDFProps) {
   const subtotal = items.reduce((acc, item) => acc + ((item.quantity || 0) * (item.rate || 0)), 0);
   const applyTax = details.taxRate > 0;
   const taxAmount = applyTax ? subtotal * (details.taxRate / 100) : 0;
   const total = subtotal + taxAmount;
-  const invoiceNum = details.invoiceNumber || 'DRAFT';
+  const quoteNum = details.quotationNumber || 'DRAFT';
 
   return (
     <Document>
       <Page size="A4" style={s.page}>
 
-        {/* ── Header: Logo | INVOICE ── */}
+        {/* ── Header: Logo | QUOTATION ── */}
         <View style={s.headerRow}>
           <View>
             {details.logoUrl
@@ -101,10 +101,10 @@ export default function InvoicePDF({ details, items }: InvoicePDFProps) {
               : (details.fromName ? <Text style={s.logoText}>{details.fromName}</Text> : null)
             }
           </View>
-          <Text style={s.invoiceTitle}>INVOICE</Text>
+          <Text style={s.documentTitle}>QUOTATION</Text>
         </View>
 
-        {/* ── Company details | Invoice meta ── */}
+        {/* ── Company details | Meta ── */}
         <View style={s.metaRow}>
           <View>
             {details.logoUrl && details.fromName && <Text style={[s.companyText, { fontFamily: 'Helvetica-Bold', marginBottom: 2 }]}>{details.fromName.toUpperCase()}</Text>}
@@ -114,20 +114,20 @@ export default function InvoicePDF({ details, items }: InvoicePDFProps) {
             {details.fromPhone && <Text style={s.companyText}>{details.fromPhone}</Text>}
           </View>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text style={s.metaLabel}>INVOICE #:</Text>
-            <Text style={s.metaValue}>{invoiceNum}</Text>
-            <Text style={s.metaLabel}>ISSUED:</Text>
+            <Text style={s.metaLabel}>QUOTE #:</Text>
+            <Text style={s.metaValue}>{quoteNum}</Text>
+            <Text style={s.metaLabel}>DATE:</Text>
             <Text style={s.metaValue}>{details.date}</Text>
-            {details.dueDate && <>
-              <Text style={s.metaLabel}>DUE:</Text>
-              <Text style={s.metaValue}>{details.dueDate}</Text>
+            {details.validUntil && <>
+              <Text style={s.metaLabel}>VALID UNTIL:</Text>
+              <Text style={s.metaValue}>{details.validUntil}</Text>
             </>}
           </View>
         </View>
 
-        {/* ── Bill To ── */}
+        {/* ── Quote To ── */}
         <View style={s.spacer}>
-          <Text style={s.billLabel}>BILL TO:</Text>
+          <Text style={s.billLabel}>QUOTE FOR:</Text>
           {details.toName && <Text style={s.clientName}>{details.toName.toUpperCase()}</Text>}
           {details.toABN && <Text style={s.clientText}>ABN: {details.toABN.replace(/^ABN:\s*/i, '')}</Text>}
           {details.toAddress && details.toAddress.split('\n').map((line, i) => <Text key={`toA-${i}`} style={s.clientText}>{line}</Text>)}
@@ -137,13 +137,20 @@ export default function InvoicePDF({ details, items }: InvoicePDFProps) {
 
         {/* ── Line items table ── */}
         <View style={s.tableHeaderRow}>
+          {details.mode === 'advanced' && <View style={s.colImg}><Text style={s.tableHead}>DESIGN</Text></View>}
           <Text style={[s.colDesc, s.tableHead]}>DESCRIPTION</Text>
           <Text style={[s.colQty, s.tableHead]}>QTY</Text>
           <Text style={[s.colPrice, s.tableHead]}>PRICE</Text>
           <Text style={[s.colTotal, s.tableHead]}>TOTAL</Text>
         </View>
+        
         {items.map((item, i) => (
           <View key={i} style={s.tableRow}>
+            {details.mode === 'advanced' && (
+              <View style={s.colImg}>
+                {item.imageUrl ? <Image src={item.imageUrl} style={s.itemImage} /> : <View style={s.itemImage} />}
+              </View>
+            )}
             <Text style={s.colDesc}>{item.description}</Text>
             <Text style={s.colQty}>{item.quantity}</Text>
             <Text style={s.colPrice}>{details.currency}{(item.rate || 0).toFixed(2)}</Text>
@@ -172,19 +179,11 @@ export default function InvoicePDF({ details, items }: InvoicePDFProps) {
           </View>
         </View>
 
-        {/* ── Absolute footer: Bank details (left) | Notes/Terms (right) ── */}
+        {/* ── Absolute footer: Notes/Terms ── */}
         <View style={[s.footer, { alignItems: 'flex-start' }]} fixed>
-          <View style={{ flex: 1, paddingRight: 20 }}>
-            {details.bankDetails && <>
-              <Text style={s.paymentLabel}>BANK DETAILS</Text>
-              {details.bankDetails.split('\n').map((line, i) => (
-                <Text key={`bank-${i}`} style={s.bankText}>{line}</Text>
-              ))}
-            </>}
-          </View>
-          <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          <View style={{ flex: 1 }}>
             <Text style={s.paymentLabel}>NOTES / TERMS</Text>
-            <Text style={[s.paymentText, { textAlign: 'right' }]}>{details.notes || 'Please include the invoice number as a payment reference.'}</Text>
+            <Text style={s.paymentText}>{details.notes || 'Thank you for the opportunity to quote.'}</Text>
           </View>
         </View>
 

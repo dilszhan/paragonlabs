@@ -19,6 +19,7 @@ export function Navbar() {
       name: 'Tools', 
       subLinks: [
         { name: 'Invoice Tool', path: '/invoice-generator' },
+        { name: 'Quotation Tool', path: '/quotation-generator' },
         { name: 'Hours Tool', path: '/hours-calculator' }
       ]
     }
